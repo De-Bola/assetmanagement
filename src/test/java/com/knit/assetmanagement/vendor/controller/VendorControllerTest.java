@@ -29,14 +29,15 @@ public class VendorControllerTest {
 
     @Test
     public void ShouldReturnNewVendor() throws Exception, VendorNoFoundException {
-        given(vendorService.getVendorByName(anyString())).willReturn(new Vendor("Jim", "Tallinn"));
+        given(vendorService.getVendorByName(anyString())).willReturn(
+                new Vendor("Jim", "Tallinn", "1-555-8784", "someone@something.eu"));
         mockMvc.perform(MockMvcRequestBuilders.get("/api/get-vendor-by-name/Jim")).
                 andExpect(status().isOk()).andExpect(jsonPath("name").value("Jim"));
     }
 
     @Test
     public void ShouldReturnCreatedVendor() throws Exception{
-        Vendor vendor = new Vendor("Jonson", "Demian");
+        Vendor vendor = new Vendor("Jonson", "Demian", "1-555-8784", "someone@something.eu");
         mockMvc.perform(MockMvcRequestBuilders.post("/api/add-vendor").contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(objectMapper.writeValueAsString(vendor)))
                 .andExpect(status().isCreated());
